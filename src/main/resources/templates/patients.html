@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="webjars/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+<div>
+
+
+
+<div layout:fragment="content1">
+    <div class="card">
+        <div class="card-header">Liste Patients</div>
+        <div class="card-body"> </div>
+        <form method="get"  th:action="@{index}">
+            <label>Keyword:</label>
+            <input type="text" name="keyword" th:value="${keyword}">
+            <button type="submit" class="btn btn-info">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+    </div>
+</div>
+<h2>Listedepatients</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th><th>Nom</th><th>Date</th><th>Malade</th><th>Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${ListePatients}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.nom}"></td>
+        <td th:text="${p.datenaissance}"></td>
+        <td th:text="${p.malade}"></td>
+        <td th:text="${p.score}"></td>
+        <td>
+            <a onclick="javascript:return confirm('Etes vous sure')"
+            th:href="@{delete(id=${p.id},keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">Delete
+            <i class="bi bi-trash"></i>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul class="nav nav-pills">
+    <li th:each="value,item : ${pages}">
+        <a th:href="@{/index(page=${item.index},keyword=${keyword})}"
+           th:class="${(currentPage==item.index)?'btn btn-info ms-1':'btn btn-outline-info' }"
+           class="btn btn-outline-info" th:text="${item.index + 1}"
+        ></a>
+
+    </li>
+</ul>
+</div>
+</body>
+</html>
